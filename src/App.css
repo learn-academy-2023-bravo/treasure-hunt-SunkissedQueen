@@ -1,9 +1,25 @@
-h1 {
+h1, button {
   text-align: center;
 }
 
 .square {
   height: 200px;
   width: 200px;
-  border: 1px solid black;
+  border: 2px solid black;
+  text-align: center;
+  font-size: 175px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 620px;
+  margin: 0 auto;
+}
+
+button {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  font-size: 50px;
 }
