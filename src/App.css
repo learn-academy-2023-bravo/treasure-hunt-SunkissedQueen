@@ -1,11 +1,15 @@
-h1, button {
+h1, button, p {
   text-align: center;
+}
+
+h1 {
+  font-family: "Sofia", sans-serif;
 }
 
 .square {
   height: 200px;
   width: 200px;
-  border: 2px solid black;
+  border: 2px solid rgb(149, 147, 147);
   text-align: center;
   font-size: 175px;
 }
@@ -22,4 +26,13 @@ button {
   flex-wrap: wrap;
   margin: 0 auto;
   font-size: 50px;
+}
+
+p {
+  color: rgb(172, 172, 179);
+}
+
+body {
+  background-color: rgb(67, 67, 158);
+  font-size: 25px;
 }

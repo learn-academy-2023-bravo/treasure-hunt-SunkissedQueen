@@ -1,15 +1,27 @@
 import React from "react"
 
-const Square = ({value, index, showIndex}) => {
-  const handleClick = () => {
-    showIndex(index)
-  }
+const Square = ({board, showIndex, emoji, counter}) => {
+// console.log(board)
+  // will need index passed from App.js
+  // const handleClick = () => {
+  //   showIndex(index)
+  // }
 
   return (
-    <>
-      {/* <div className="square" onClick={()=>{showIndex(index)}}>{value}</div> */}
-      <div className="square" onClick={handleClick}>{value}</div>
-    </>
+    <main className="grid">
+      {board.map((value, index) => {
+        return(
+          <div 
+            key={index} 
+            className="square"
+            onClick={()=>{emoji && counter > 0 && showIndex(index)}}
+            // onClick={handleClick}
+          >
+            {value}
+          </div>
+        )
+      })}
+    </main>
   )
 }
 export default Square

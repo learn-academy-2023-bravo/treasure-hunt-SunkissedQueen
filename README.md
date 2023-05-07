@@ -1,26 +1,29 @@
+***Commentary*** 
 Remember when we met a long time ago in Jumpstart, treasure hunt!!!
 
 You can showcase your skillsets with React.
 
 As always we want to setup our environment then the README. Today we will do mob programming and you get to have you own individual project. We will start together then you will get an opportunity to work on your own. Of course, we collab and support each other.
 
-EveryBody click the link in slack. Your personal treasure hunt repo will get auto-populated. Click the next link to go to your repo. Let's checkout the README without all the markup.
+1. EveryBody click the link in slack. Your personal treasure hunt repo will get auto-populated. Click the next link to go to your repo. Let's checkout the README without all the markup.
 
-Lots of user stories. Lots of opporunities to practice. Let's agree to focus on one thing at a time. I suggest creating a branch for each user story to help you with your pace. We will start togther. Stop me if you have a question or you are not getting a similar output.
+Lots of user stories. Lots of opportunities to practice. Let's agree to focus on one thing at a time. I suggest creating a branch for each user story to help you with your pace. We will start together. Stop me if you have a question or you are not getting a similar output.
 
- clone it locally. 
- create a branch `board` for first story
- start server (remind them to stop server before closing the terminal)
+2. clone your repo locally.
 
- - see error, oh, this is an existing project. I need to run yarn to bring in the required dependencies.
+3. create a branch `board` for first story
 
+4. start server (remind them to stop server before closing the terminal)
  -  $ yarn start
 
- create an additional tab for other commands
+5. - see error, oh, this is an existing project. I need to run $ yarn to bring in the required dependencies.
+
+6. create an additional tab for other commands
 
  - only see heading tag, inspect page - no errors
 
- - go to first user story
+ 7. - go to first user story
+***Commentary*** 
 
 # 💰 React Treasure Hunt Game
 
@@ -94,6 +97,12 @@ git flow ---> "created grid with question mark"
 
 - As a user, when I click on one of the question marks an alert appears with the index position of that question mark in the array.
 branch: index
+
+show with table
+console.table(board)
+
+The StrictMode component is used to identify bugs during development. on index.js so console will print twice.
+
 each values lives at an index on the array, if we share that to the Square, it can then send the index back when the square is clicked. --> onClick attribute on each square --> need a function to give alert() to show id.
 - input: index of the selected box (number)
 - output/return: alert message showing index (number)
@@ -126,7 +135,7 @@ branch: tree
 where are the question marks stored --> changing state, setter function. tell it to return the values of the array but changed the value of the index that is clicked
 we see the selectedId so let's use it
 ```js
-board[selectedId] = "🍪"
+board[selectedId] = "🌴"
 setBoard([...board])
 ```
 
@@ -136,8 +145,8 @@ git flow--->"shows tree emoji when clicked"
 - As a user, if I select the winning square the question mark will become a treasure emoji and if I select the losing square the question mark will become a bomb emoji.
 
 random num for winning and losing, use conditonal statements, first true then 
-treasure emoji ---> "🧀"
-bomb emoji ---> "🍅" 
+treasure emoji ---> "☀️"
+bomb emoji ---> "⛈" 
 
 ```js
   const showIndex = (selectedId) => {
@@ -145,13 +154,13 @@ bomb emoji ---> "🍅"
     let bombLocation = Math.floor(Math.random() * board.length)
     console.log(treasureLocation, bombLocation)
     if(treasureLocation === selectedId) {
-      board[selectedId] = "🧀"
+      board[selectedId] = "☀️"
       setBoard([...board])
     } else if(bombLocation === selectedId) {
-      board[selectedId] = "🍅"
+      board[selectedId] = "⛈"
       setBoard([...board])
     } else {
-      board[selectedId] = "🍪"
+      board[selectedId] = "🌴"
       setBoard([...board])
     }
   }
@@ -161,13 +170,183 @@ bomb emoji ---> "🍅"
 - As a user, I can click on a “Play Again” button that will restart the game.
 - button ---> Play again, trigger the function
 - function to create box with ?
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Array
+
+```js
+// Array literal notation
+// Arrays can be created using the literal notation:
+  setBoard(["?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?",
+      "?"])
 
 
+// Array constructor with a single parameter
+// Arrays can be created using a constructor with a single number parameter. An array is created with its length property set to that number, and the array elements are empty slots. .fill() states what to place in the slots
+    setBoard(Array(9).fill("?"))
+```
+
+git flow ---> "restarted game"
+
+
+Refactored to show container
+```js
+import React, { useState } from "react"
+import "./App.css"
+import Square from "./components/Square"
+import NewGame from "./components/NewGame"
+
+const App = () => {
+
+  const [board, setBoard] = useState([
+    "?",
+    "?",
+    "?",
+    "?",
+    "?",
+    "?",
+    "?",
+    "?",
+    "?"
+  ])
+
+  const showIndex = (selectedId) => {
+    let treasureLocation = Math.floor(Math.random() * board.length)
+    let bombLocation = Math.floor(Math.random() * board.length)
+    console.log(treasureLocation, bombLocation)
+    if(treasureLocation === selectedId) {
+      board[selectedId] = "☀️"
+      setBoard([...board])
+    } else if(bombLocation === selectedId) {
+      board[selectedId] = "⛈"
+      setBoard([...board])
+    } else {
+      board[selectedId] = "🌴"
+      setBoard([...board])
+    }
+  }
+
+  const reStart = () => {
+    // setBoard(["?",
+    // "?",
+    // "?",
+    // "?",
+    // "?",
+    // "?",
+    // "?",
+    // "?",
+    // "?"])
+    setBoard(Array(9).fill("?"))
+  }
+  
+  console.table(board)
+  return (
+    <>
+      <h1>Treasure Hunt Game</h1>
+      <Square 
+        board={board}
+        showIndex={showIndex} 
+      />
+      <NewGame reStart={reStart}/>
+      
+    </>
+  )
+}
+
+export default App
+
+```
+
+
+presentation
+```js
+import React from "react";
+
+const NewGame = ({reStart}) => {
+  return(
+    <button onClick={reStart}>Play Again</button>
+  )
+}
+
+export default NewGame
+
+import React from "react"
+
+const Square = ({board, showIndex}) => {
+// console.log(board)
+  // will need index passed from App.js
+  // const handleClick = () => {
+  //   showIndex(index)
+  // }
+
+  return (
+    <main className="grid">
+      {board.map((value, index) => {
+        return(
+          <div 
+            key={index} 
+            className="square"
+            onClick={()=>{showIndex(index)}}
+            // onClick={handleClick}
+          >
+            {value}
+          </div>
+        )
+      })}
+    </main>
+  )
+}
+export default Square
+
+```
 - As a user, I can see a counter that shows how many guesses I have left. The counter starts at five and decrements one every time I click on a square that is not the treasure nor the bomb.
+- use function that controls emojis, set variable to start at 5 then on else subtract 1
+- since the value needs to be track and it is change ---> state
+- show value just being assigned to a variable and console.log, keeps being reset with each render, 
+- reset to 5 on newgame
+  // console.log(counter)
+
+  ```js
+  <!-- app.js -->
+  } else {
+      board[selectedId] = "🌴"
+      setCounter(counter - 1)
+      setBoard([...board])
+    }
+
+    <NewGame 
+        reStart={reStart}
+        counter={counter}
+      />
+      <!-- newgame.js -->
+      const NewGame = ({reStart, counter}) => {
+  return(
+    <>
+      <p>Plays Left: {counter}</p>
+      <button onClick={reStart}>Play Again</button>
+    </>
+  ```
+
 - As a user, I can see a message informing me that I won the game if I select the square that contains the treasure.
+- perform action on the emoji function
+`alert("🏝 You won. ☀️ Enjoy your beach day 🥥")`
+
+
 - As a user, I can see a message informing me that I lost the game if I select the square that contains the bomb.
+`alert("Sorry, your beach umbrella 🌂 is being used for rain ☔️.")`
+
 - As a user, I cannot continue to play the game after I win or lose.
+create a variable to track if things have changes, true, switch to false
+reset on newgame
+
+
 - As a user, I can see a message informing me that I lost the game when I run out of turns (the counter reaches zero).
+update emoji function
 
 ### 🏔 Stretch Goals
 
